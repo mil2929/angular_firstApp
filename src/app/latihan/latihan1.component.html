@@ -1,0 +1,23 @@
+<h1>hai {{nama}}</h1>
+
+<!--To print the variable name, create an event first-->
+<button type="button" (click)="setNama()">Click me</button>
+<!--end-->
+
+<br><br>
+<!--the code below will change {{name}} in real time-->
+<input type="text" [(ngModel)]="nama"> 
+<!--Don't forget to put : import { FormsModule} from '@angular/forms';
+    and imports: [FormsModule] on app.modules.ts in order to load ngModel-->
+<!--end-->
+
+<!--displays array from the code behind 'latihan.component.ts'-->
+<ul>
+    <li *ngFor="let x of listOfJobs">{{x}} <a (click)="delete(x)">Hapus</a> </li>
+</ul>
+<!--end-->
+
+<!--add element to array-->
+<input type="text" [(ngModel)]="job" placeholder="add jobs">
+<button type="button" (click)="addJobs()">ADD</button>
+<!--end-->

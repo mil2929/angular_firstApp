@@ -1,0 +1,110 @@
+<div class="container">
+    <h2>Customers Data</h2>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-md-1">
+                    <label class="control-label">Criteria : </label>
+                </div>
+                <div class="col-md-2">
+                        <select class="form-control" [(ngModel)]="criteria">
+                                <option *ngFor="let c of columns" [value]="c.field">{{c.text}}</option>
+                        </select>                     
+                </div>
+                <div class="col-md-3">
+                        <input type="text" class="form-control"  [(ngModel)]="searchVal">
+                </div> 
+                <div class="col-md-2">
+                        <button type="button" (click)="search()"  class="btn btn-primary">Search</button>
+                </div>               
+                <div>
+                </div>
+            </div>
+            <div class="row">
+                    <ul style="margin-top: 10px">
+                            <li *ngFor="let ctr of option.criteria">
+                                 Results of <span style="color:cornflowerblue"> {{ctr.criteria}} </span> that contain <b>"{{ctr.value}}" </b><span style="color:coral; cursor: pointer"(click)="remove(ctr)">remove</span>
+                            </li>
+                        </ul>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th *ngFor="let c of columns" (click)="sort(c.field)">{{c.text}} 
+                                <i class="glyphicon glyphicon-sort sort-icon" 
+                                [class.glyphicon-sort-by-attributes]='c.field == option.order.column && option.order.direction =="ASC"'
+                                [class.glyphicon-sort-by-attributes-alt]='c.field == option.order.column && option.order.direction =="DSC"'
+                                [class.glyphicon-sort]='c.field!=option.order.column'
+                                [style.opacity]='c.field==option.order.column ? 0.8 : 0.4'></i>
+                            
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let r of data">
+                            <td>
+                                <a (click)="view(r)" style="margin-right: 5px">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </a>
+                                <a (click)="edit(r)" style="margin-right: 5px">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                                <a (click)="delete(r)" style="margin-right: 5px">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </td>
+                            <td *ngFor="let i of columns">{{r[i.field]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="margin-bottom: 15px">
+                <div class="col-md-4">
+                    <b style="margin-left: 15px">Total Row(s) = {{rowCount}}</b>
+                </div>
+                <div class="col-md-8">
+                    <div style="text-align: right">
+                        <span>Show : </span>
+                        <select (change)="displayData()" class="page-control" [(ngModel)]="option.pageSize">
+                            <option *ngFor="let opt of [5,10,15,20]">{{opt}}
+                            </option>
+                        </select>
+
+                        <span> Page :</span>
+
+                        <input (keyup)="displayData()" type="text" class="form-control" [(ngModel)]="option.page" class="page-control">
+
+                        <button type="button" [disabled]="option.page==1" (click)="prev()" style="margin-left: 10px" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-chevron-left"></span> Prev
+                        </button>
+                        <button type="button" [disabled]="option.page==pageCount" (click)="next()" style="margin-left: 10px; margin-right: 10px"
+                            class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-chevron-right"></span> Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <button type="button" style="margin-left: 15px; margin-bottom: 15px" class="btn btn-primary" (click)="add()">Add Customer</button>
+        </div>
+    </div>
+
+</div>
+
+<div>
+
+</div>
+
+
+
+<div>
+    <customer-detail-modal [save]="saveCallback" [customer]="customer" [state]="state"></customer-detail-modal>
+</div>
